@@ -17,7 +17,7 @@
   class="light-style customizer-hide"
   dir="ltr"
   data-theme="theme-default"
-  data-assets-path="../assets/"
+  data-assets-path="{{ asset('assets') }}/"
   data-template="vertical-menu-template-free"
 >
   <head>
@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login to Ingetin</title>
+    <title>Register Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -72,21 +72,14 @@
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
-          <!-- Register -->
-          @if (Session::has('registered'))
-            
-          <div class="alert alert-success alert-dismissible" role="alert">
-            {{Session::get('registered')}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          @endif
+          <!-- Register Card -->
           <div class="card">
             <div class="card-body">
               <!-- Logo -->
               <div class="app-brand justify-content-center mb-4">
                 <a href="index.html" class="app-brand-link d-flex flex-row gap-1 mb-2">
                   <span class="app-brand-logo demo">
-
+                  
                   </span>
                   <img style="width: 36px; height: 36px" src="{{ asset('assets/ingetin.jpg') }}" alt="">
                   <h2 id="logo" style="color: black !important" class="m-0">inget<span class="accent-color">i</span>n</h2>
@@ -95,40 +88,41 @@
               </div>
               <!-- /Logo -->
               <h4 class="mb-1">Welcome to Ingetin!</h4>
-              <p class="mb-4">Sign in to continue arranging your activities!</p>
-              
-            <form id="formAuthentication" class="mb-3" action="{{ route('login-process') }}" method="POST">
+              <p class="mb-4">Sign up to start arranging your activities!</p>
+
+              <form id="formAuthentication" class="mb-3" action="{{route('register-process')}}" method="POST">
                 @csrf
                 <div class="mb-3">
                   <div class="mb-2 d-flex justify content-start gap-1 align-items-center">
 
-                    <label for="email" class="m-0 form-label @if (Session::has('message')) text-danger @endif">Username</label>
-                    @if (Session::has('message'))
-<div class="text-error fst-italic"> - {{ Session::get('message') }}</div>
-@endif
+                  <label for="username" class="m-0 form-label @error('username') text-danger @enderror">Username</label>
+                  @error('username')
+<div class="text-error fst-italic"> - {{ $message }}</div>
+@enderror
                   </div>
                   <input
                     type="text"
-                    class="form-control @if (Session::has('message')) is-invalid @endif"
+                    class="form-control @error('username') is-invalid @enderror"
                     id="username"
                     name="username"
                     placeholder="Enter your username"
                     autofocus
                   />
                 </div>
+                
                 <div class="mb-3 form-password-toggle">
-                  <div class="mb-2 d-flex justify-content-start gap-1 align-items-center">
-                    <label class="m-0 form-label @if (Session::has('message')) text-danger @endif" for="password">Password</label>
-                    @if (Session::has('message'))
-<div class="text-error fst-italic"> - {{ Session::get('message') }}</div>
-@endif
+                  <div class="mb-2 d-flex justify content-start gap-1 align-items-center">
 
+                  <label class="m-0 form-label @error('password') text-danger @enderror" for="password">Password</label>
+                  @error('password')
+<div class="text-error fst-italic"> - {{ $message }}</div>
+@enderror
                   </div>
                   <div class="input-group input-group-merge">
                     <input
                       type="password"
                       id="password"
-                      class="form-control @if (Session::has('message')) is-invalid @endif"
+                      class="form-control @error('password') is-invalid @enderror"
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
@@ -136,30 +130,27 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
-                <div class="mb-3">
 
-                </div>
-                <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
-                </div>
+                
+                <button type="submit" class="btn btn-primary d-grid w-100">Sign up</button>
               </form>
 
               <p class="text-center">
-                <span>Don't have an account?</span>
-                <a href="{{ route('register-index') }}">
-                  <span>Create an account</span>
+                <span>Already have an account?</span>
+                <a href="{{route('login-index')}}">
+                  <span>Login instead</span>
                 </a>
               </p>
             </div>
           </div>
-          <!-- /Register -->
+          <!-- Register Card -->
         </div>
-        </div>
+      </div>
     </div>
 
     <!-- / Content -->
 
-
+    
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

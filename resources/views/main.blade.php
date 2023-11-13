@@ -131,9 +131,27 @@
                             </div>
                         </div>
                     </div>
-                    <div style="height: 10%"
-                        class="border-top border-2 bottom-0 py-2 px-2 accent-secondary w-100 profile">
-                        <p class="fw-bold">BagasAp</p>
+                    <div style=""
+                        class="m-0 border-top border-2 bottom-0 py-2 px-2 accent-secondary w-100 profile">
+
+                        <div class="btn-group dropup d-flex justify-content-between align-items-center">
+                            <p title="Logged in as {{ auth()->user()->username }}" class="fw-bold ps-1 m-0">
+                                {{ auth()->user()->username }}</p>
+                            <div class="p-2 profile-button d-flex justify-content-center align-items-center"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                <i data-feather="settings" style="width: 16px; height: 16px;"></i>
+                            </div>
+                            <ul class="dropdown-menu" style="">
+                                {{-- <a href="{{ route('logout') }}"> --}}
+                                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                                {{-- </a> --}}
+
+                            </ul>
+                        </div>
+
+                        {{-- <div class="btn btn-primary">Logout</div> --}}
+
                     </div>
 
                 </div>
@@ -231,7 +249,7 @@
                     data: values,
                     dataType: "json",
                     success: function(res) {
-                        $('.list-todos').append(`<div onclick="showDesc(${res.id})" oncontextmenu="alert('halo')"
+                        $('.todos').append(`<div onclick="showDesc(${res.id})" oncontextmenu="alert('halo')"
             class=" mx-3 my-0 p-3  border-bottom todo-hover"
             style="border-radius: 0; padding-top: 0.67rem !important; padding-bottom: 0.67rem !important">
 
@@ -254,7 +272,7 @@
                 });
             }
 
-            function show(url, id) {
+            function show(url, id, allow = false) {
                 const randomNumber = Math.floor(Math.random() * 5);
 
                 const gif_url = 'assets/';
@@ -263,7 +281,7 @@
                 console.log(loadings);
 
                 console.log(randomNumber);
-                if (id !== currentSelectedList_id) {
+                if (id !== currentSelectedList_id || allow == true) {
                     currentSelectedList_id = id;
                     $('.title-container').html(`
                             <div style="width:100px; height: 28.8px; background-color: rgb(238, 238, 250) !important" class="accent-secondary title-container rounded bg-danger"></div>
@@ -319,7 +337,7 @@
                                         </div>
                                     </div>
                                 `;
-                            
+
                             // console.log(editModal);
                             $('.title-container').html(`
                                 <h4 class="m-0">${selectedList ? selectedList : ''}</h4>
@@ -327,19 +345,19 @@
                                    
                                 ${selectedList ? 
                                     `<div title="Edit ${selectedList}" class="list-options d-flex justify-content-center align-items-center p-2 show" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <i style="width: 20px; height: 20px" data-feather="more-horizontal"></i>
+                                                                                                        <i style="width: 20px; height: 20px" data-feather="more-horizontal"></i>
 
-                                    </div>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="d-flex align-items-center gap-3 dropdown-item" data-bs-toggle="modal" data-bs-target="#editModal"><i style="width: 18.6px" data-feather="edit"></i><span>Edit</span></a></li>
-                                            <form id="delete-form" action="" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <li><button type="button" onclick="deleteList('/deletelist/${selectedList_id}', '${selectedList}')" class="d-flex align-items-center gap-3 dropdown-item"><i style="width: 18.6px" data-feather="trash"></i><span>Delete</span></button></li>
-                                            </form>
-                                        </ul>
-                                        ${editModal}
-                                        ` : ''}
+                                                                                                    </div>
+                                                                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                                                                            <li><a class="d-flex align-items-center gap-3 dropdown-item" data-bs-toggle="modal" data-bs-target="#editModal"><i style="width: 18.6px" data-feather="edit"></i><span>Edit</span></a></li>
+                                                                                                            <form id="delete-form" action="" method="post">
+                                                                                                                @method('DELETE')
+                                                                                                                @csrf
+                                                                                                                <li><button type="button" onclick="deleteList('/delete-list/${selectedList_id}', '${selectedList}')" class="d-flex align-items-center gap-3 dropdown-item"><i style="width: 18.6px" data-feather="trash"></i><span>Delete</span></button></li>
+                                                                                                            </form>
+                                                                                                        </ul>
+                                                                                                        ${editModal}
+                                                                                                        ` : ''}
                             `);
                             $('.list-create').html(`
                                 ${selectedList ? `<input type="text" onblur="this.value = '';" onkeydown="event.keyCode === 27 && this.blur(); event.keyCode === 13 && enterHandle();" name="create-todo" size="20" class="w-100 create-todo py-2"style="padding-left: 0.53rem !important" id="create-todo" placeholder="+ Add task to ${selectedList}">` : ''}

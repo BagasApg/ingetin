@@ -4,7 +4,7 @@
         <form id="delete-form" action="" method="post">
         @csrf
         @method('DELETE')
-            <div onclick="deleteTodo('{{ route('delete-todo', $todo->id) }}', '{{ $todo->name }}')" title="Delete {{ $todo->name }}"
+            <div onclick="deleteTodo('{{ route('process-delete-todo', $todo->id) }}', {{ $todo->id }}, '{{ $todo->name }}')" title="Delete {{ $todo->name }}"
                 class="delete-todo d-flex justify-content-center align-items-center p-2 show">
                 <i style="width: 18px; height: 18px" data-feather="trash"></i>
             </div>
@@ -34,8 +34,16 @@
         this.style.height = (this.scrollHeight) + "px";
     });
 
-    function deleteTodo(url, name) {
+    function deleteTodo(url, id, name) {
         $(document).ready(function() {
+            var values = {
+                'id': id
+            }
+            $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
             Swal.fire({
                 title: 'Are you sure',
                 text: "This action is irreversible. Continue?",
@@ -45,15 +53,25 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
+                const listURL = $('#titip-url').val();
+                const listID = $('#titip-id').val();
                 if (result.isConfirmed) {
                     Swal.fire(
                         'Deleted!',
                         'Todo "' + name + '" deleted!',
                         'success'
                     ).then(() => {
-                        $("#delete-form").attr('action', url);
-                        $('#delete-form').submit();
-
+                        
+                        $.ajax({
+                            type: "DELETE",
+                            url: url,
+                            data: values,
+                            dataType: "json",
+                            success: function (response) {
+                                console.log('reloading!');
+                                show(listURL, listID, true);
+                            }
+                        });
                     })
                 }
             })

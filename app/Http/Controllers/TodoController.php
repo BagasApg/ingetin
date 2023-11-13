@@ -65,7 +65,7 @@ class TodoController extends Controller {
         // dd($request);
         $todo = Todo::find($id);
         $todo->delete();
-        
+        return response()->json(['message' => "Nice"]);
     }
 
     public function updateStatus(Request $request, $id) {

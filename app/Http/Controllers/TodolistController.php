@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Cookie;
 class TodolistController extends Controller
 {
     public function index() {
+        $user_id = auth()->user()->id;
+        // dd($user_id);
         $loadings = [
             'Loading your todos...',
             'Fetching your activities...',
@@ -18,15 +20,18 @@ class TodolistController extends Controller
             'Predicting your favorite football team...',
             'Speculating your final exams score...'
         ];
-        $lists = Todolist::where('user_id', 1)->get();
+        $lists = Todolist::where('user_id', $user_id)->get();
         return view('main', compact('lists', 'loadings'));
     }
     
 
     public function store(Request $request){
         // dd($request);
+        $user_id = auth()->user()->id;
+        
         $list = new Todolist();
-        $list->user_id = 1;
+        
+        $list->user_id = $user_id;
         $list->name = $request->name;
         $list->save();
         Cookie::queue('selected-id', $list->id, 10);
@@ -49,6 +54,6 @@ class TodolistController extends Controller
         $firstList = Todolist::all()->first();
         Cookie::queue('selected-id', $firstList->id, 10);
         // dd($lists);
-        return redirect()->back();
+        return redirect('/');
     }
 }

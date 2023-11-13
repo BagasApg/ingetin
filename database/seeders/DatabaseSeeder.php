@@ -64,11 +64,11 @@ class DatabaseSeeder extends Seeder {
         $users = [
             [
                 'username' => 'bagasap',
-                'password' => '12345'
+                'password' => 'asdasdasd'
             ],
             [
                 'username' => 'faizagit',
-                'password' => '12345'
+                'password' => 'asdasdasd'
             ]
         ];
 

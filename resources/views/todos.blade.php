@@ -60,7 +60,7 @@ dd('else');
 
                 {{-- <div class="flex-fill"> --}}
 
-                    <div onclick="showDesc({{ $todo->id }})" oncontextmenu="alert('halo')"
+                    <div onclick="showDesc({{ $todo->id }})" 
                         class=" mx-3 my-0 p-3  border-bottom todo-hover d-flex flex-row justify-content-between align-items-center"
                         style="border-radius: 0; padding-top: 0.67rem !important; padding-bottom: 0.67rem !important">
 

@@ -12,6 +12,23 @@
     font-weight: bold;
 }
 
+
+
+.profile-button {
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.profile-button:hover {
+    border-radius: 50%;
+    background-color: #dfecff;
+}
+
+.text-error {
+    color: rgb(255, 62, 29);
+    font-size: 0.8rem;
+}
+
 .list-options {
     /* background-color: red; */
     border-radius: 100px;
