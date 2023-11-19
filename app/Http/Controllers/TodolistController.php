@@ -49,10 +49,19 @@ class TodolistController extends Controller
 
     public function delete($id){
         // dd($id);
+        $user_id = auth()->user()->id;
+
+
         $list = Todolist::find($id);
         $list->delete();
-        $firstList = Todolist::all()->first();
-        Cookie::queue('selected-id', $firstList->id, 10);
+        $firstList = Todolist::where('id', $user_id)->first();
+        // dd($firstList);
+        if(!is_null($firstList)){
+            Cookie::queue('selected-id', $firstList->id, 10);
+            return redirect('/');
+        }
+        Cookie::queue('selected-id', 0, 10);
+        
         // dd($lists);
         return redirect('/');
     }
